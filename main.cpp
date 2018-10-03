@@ -12,7 +12,7 @@ class Deck{       // наша колода карт с наминалом от 6 до 10
 		static const int N = 36; //количество карт в колоде
  		string deck[N]; // колода карт 
  		char tr;
- 		void create(){
+ 		void create(){                      // создает колоду карт
  			int i = 0;
  			string b;
  			int c = 0;
@@ -44,7 +44,7 @@ class Deck{       // наша колода карт с наминалом от 6 до 10
  			}
  		}
  		
- 		void view(){
+ 		void view(){                    // показывает все карты, для отладки
  			for(int i=0;i<N;i++){
  				cout<< deck[i] <<" ";
 
@@ -52,7 +52,7 @@ class Deck{       // наша колода карт с наминалом от 6 до 10
  			}
  		}
  		
- 		void mix(){
+ 		void mix(){                   // перемешивает колоду
  			string deck2[N]; 
  			int tmp=N;
  			for(int i=0;i<N;i++){ 
@@ -67,46 +67,46 @@ class Deck{       // наша колода карт с наминалом от 6 до 10
     				
  		}
  		
- 		char trump(int t){
+ 		char trump(int t){        // возвращает масть выбранной карты, нужна для выбора козыря
  			char *to = (char *) deck[t].c_str();
  			return to[2];
  		}
  		
- 	     void setTrump(char t){
+ 	     void setTrump(char t){ // вводит козырь
  	     	tr = t;
  	     }
  	     
- 	     char getTrump(){
+ 	     char getTrump(){      // возвращает козырь
  	     	return tr;
  	     }
  	     
- 	     string* getDeck(){
+ 	     string* getDeck(){    // возвращает колоду
  	     	
  	     	return deck;
  	     }
 	
 };
-class Player{
+class Player{                // класс игрока
 	static const int N = 6; //количество карт в руке
 	string hand[N];
 	char tr;
 	int points;
 public:
-    void addCards(string *cards){
+    void addCards(string *cards){           // добавляет карты в руку
 		for(int i=0;i<N;i++){
  				hand[i] = cards[i];
  			}
 	}
-	void viewHand(){
+	void viewHand(){                         // показывает карты на руке
 		for(int i=0;i<N;i++){
  				cout<< hand[i] <<" ";
  		}
  		cout<<endl;
  	}
- 	void setTrump(char t){
+ 	void setTrump(char t){                     // сообщает игроку козырь
  		tr = t;
  	}
- 	void sortHand(){
+ 	void sortHand(){                           // сортировка карт на руке с учетом козырей
  		string temp;
  		for (int i = 0; i < N - 1; i++) {
         	for (int j = 0; j < N - i - 1; j++) {
@@ -144,7 +144,7 @@ public:
         	}
     	}
  	}
- 	string getCard(int num){
+ 	string getCard(int num){                     // возвращает номинал карты, нужно для сравнения
  			string card;
         	ostringstream buffer;
     		buffer << hand[num][0];
@@ -156,11 +156,11 @@ public:
         	if(card==" T") card = "14";
         	return card;
  	}
- 	char getMast(int num){
+ 	char getMast(int num){                       // возвращает масть карты с руки игрока
  		char mast = hand[num][2];
         	return mast; 
  	}
- 	void countPoints(){
+ 	void countPoints(){                         // считает баллы
  			
  			points = 0;
  		for(int i=0;i<N;i++){
@@ -180,7 +180,7 @@ public:
         	points = points + point;
  		}
  	}
- 	int getPoints(){
+ 	int getPoints(){                    // возвращает баллы
  		return points;
  	}
  	
@@ -196,20 +196,15 @@ int main(int argc, char** argv) {
 		cout<< "Specify the number of players(max 6) \n";
     	cin>> number;
     }
-	deck.create();
+	deck.create(); // создаем колоду
 	cout<<"-----------------------------------------"<<endl;
-	//deck.view(); //проверяем что наша колода создалась нормально
-	//cout<<"-----------------------------------------"<<endl;
-	deck.mix();
-	//cout<<"-----------------------------------------"<<endl;
-	//deck.view(); // проверяем, что перемешивается все правильно
-	//cout<<"-----------------------------------------"<<endl;
+	deck.mix();   //  перетасовываем
 	while(com < 1 || com > 5){
-		cout<< "Choose a card from 1 to 5 to choose a trump \n";
+		cout<< "Choose a card from 1 to 5 to choose a trump \n"; // даем выбрать козырь
     	cin>> com;
 	} 
-    deck.setTrump(deck.trump(com));
-    char trump = deck.getTrump(); 
+    deck.setTrump(deck.trump(com));   //устанавливаем козырную карту
+    char trump = deck.getTrump();     // козырь
     switch(trump){
     	case 'k': cout<<"Trump is krest!";
     			break;
@@ -220,7 +215,7 @@ int main(int argc, char** argv) {
     	case 'p': cout<<"Trump is pika!";
     			break;
     }
-    Player players[number];
+    Player players[number]; // инициализируем массив игроков
     
     for(int i=0;i<number;i++){
 		string* d;
@@ -237,7 +232,7 @@ int main(int argc, char** argv) {
     for(int i=0;i<number;i++){
     	players[i].setTrump(trump);  //сообщим каждому игроку козырь
     	players[i].sortHand();       // сортируем карты каждого игрока, сперва идут козыря, потом остальные карты, все в порядке убывания
-    	players[i].viewHand();      //проверяем карты каждого игрока
+    	players[i].viewHand();      //покажем  карты каждого игрока
     }
     //сравниваем колоды у кого найсильнейшая карта
     Player player;
@@ -259,10 +254,7 @@ int main(int argc, char** argv) {
 	
 	cout<<"-----------------------------------------"<<endl;
     cout<<"Top card is here:"<<endl;
-    players[0].viewHand();      // на первом месте победитель.
-    //теперь попробуем сравнить все карты, для этого номинал карты это пусть будет равное количество балов 6 = 6 баллам, и т д, валет = 11 баллов
-    //дама =12 баллов и т д. Туз = 14 баллов, козырным картам добавим 9 баллов, то есть 6ка козырная будет равна 15 баллам
-    //теперь посчитаем количество баллов на руке у каждого игрока
+    players[0].viewHand();      // на первом месте рука с самой сильной картой.
     for(int i=0;i<number;i++){
     	players[i].countPoints(); //считаем баллы
     }
@@ -288,6 +280,6 @@ int main(int argc, char** argv) {
 	cout<<"Top hand is here:"<<endl;
 	players[0].viewHand();      // на первом месте победитель c самой сильной картой.
     
-	//system("pause"); // Команда задержки экрана
+	system("pause"); // Команда задержки экрана
 	return 0;
 }
