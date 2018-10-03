@@ -281,5 +281,6 @@ int main(int argc, char** argv) {
 	players[0].viewHand();      // на первом месте победитель c самой сильной картой.
     
 	system("pause"); // Команда задержки экрана
+	
 	return 0;
 }
